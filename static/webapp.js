@@ -6,11 +6,12 @@ loadData()
     console.log(data);
     const holder = document.querySelector("data");
     holder.data = data;
-    updateSelection(data);
+    updateSelectionEvents(data);
     drawByHourChart(data);
+    drawYearSummary(data);
   });
 
-function updateSelection(data){
+function updateSelectionEvents(data){
   const names = eventNames(data);
   const sel = document.getElementById("byhoursel");
   sel.addEventListener('change', selectionChanged);
@@ -28,9 +29,8 @@ function selectionChanged(event){
 }
 
 function drawByHourChart(data, eventType) {
-  const filtered = filterEvents(data, eventType);
+  const filtered = filterEvents(data, eventType === 'all' ? null : eventType);
   const hourly = byHour(omitIncoming(filtered));
-  console.log(hourly);
 
   const dataset = {
     label: 'events per hour',
@@ -47,7 +47,7 @@ function drawByHourChart(data, eventType) {
     return;
   }
 
-  const ctx = document.getElementById('byhour').getContext('2d');
+  const ctx = document.getElementById('byhourcnv').getContext('2d');
   charts.byHourChart = new Chart(ctx, {
       type: 'bar',
       data: {
@@ -62,6 +62,20 @@ function drawByHourChart(data, eventType) {
   });
 }
 
-function addEvents(selId) {
+function drawYearSummary(data){
+  const summary = yearSummary(data);
+  const years = Object.keys(summary);
+  const tot = document.querySelector('#yeartotals');
+  years.forEach(year => {
+    tot.insertAdjacentHTML('beforeend', `<h3>${year}</h3>`);
+    const yearData = summary[year];
+    const events = Object.keys(yearData);
+    const lineItems = events.reduce( (acc, event) => {
+      const total = yearData[event];
+      const li = `<li>${event}: <b>${total}</b></li>`;
+      return acc + li;
+    }, "")
+    tot.insertAdjacentHTML('beforeend', `<ul>${lineItems}</ul>`);
 
+  });
 }

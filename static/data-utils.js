@@ -27,6 +27,20 @@ function byHour(events){
   return result;
 }
 
+function yearSummary(data){
+  return data.reduce((acc,event) => {
+    const year = event.timestamp.match(/^\d\d\d\d/);
+    if(!acc[year]){
+      acc[year] = {};
+    }
+    if(!acc[year][event.event]){
+      acc[year][event.event] = 0;
+    }
+    acc[year][event.event]++;
+    return acc;
+  }, {});
+}
+
 function filterEvents(data, eventName){
   if(!eventName) return data;
   return data.filter(x => x.event === eventName);

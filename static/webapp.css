@@ -12,3 +12,30 @@ body {
 data {
   display: none;
 }
+
+.start-hidden {
+  display: none;
+}
+
+#chartpicker {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+#chartpicker li a {
+  color: blue;
+  text-decoration: none;
+  padding: 15px;
+}
+#chartpicker li a:hover {
+  text-decoration: none;
+  color: white;
+  background: black;
+}
+
+#chartpicker li {
+  float: left;
+  padding-right: 10px;
+}
