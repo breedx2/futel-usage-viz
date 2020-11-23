@@ -1,26 +1,59 @@
-console.log('hello world');
+
+const charts = {};
 
 loadData()
   .then(data => {
     console.log(data);
-    drawByHour(data);
+    const holder = document.querySelector("data");
+    holder.data = data;
+    updateSelection(data);
+    drawByHourChart(data);
   });
 
-function drawByHour(data) {
-  const hourly = byHour(omitIncoming(data));
+function updateSelection(data){
+  const names = eventNames(data);
+  const sel = document.getElementById("byhoursel");
+  sel.addEventListener('change', selectionChanged);
+  names.forEach(name => {
+    var option = document.createElement("option");
+    option.text = name;
+    sel.add(option);
+  });
+}
+
+function selectionChanged(event){
+  const sel = document.getElementById("byhoursel");
+  console.log(sel.value);
+  const holder = document.querySelector("data");
+  drawByHourChart(holder.data, sel.value);
+}
+
+function drawByHourChart(data, eventType) {
+  const filtered = filterEvents(data, eventType);
+  const hourly = byHour(omitIncoming(filtered));
   console.log(hourly);
-  var ctx = document.getElementById('byhour').getContext('2d');
-  var myBarChart = new Chart(ctx, {
+
+  const dataset = {
+    label: 'events per hour',
+    backgroundColor: '#d8dde6',
+    borderColor: 'black',
+    borderWidth: 1,
+    data: hourly
+  };
+
+  if(charts.byHourChart){
+    charts.byHourChart.clear();
+    charts.byHourChart.data.datasets[0] = dataset;
+    charts.byHourChart.update();
+    return;
+  }
+
+  const ctx = document.getElementById('byhour').getContext('2d');
+  charts.byHourChart = new Chart(ctx, {
       type: 'bar',
       data: {
         labels: [...Array(24).keys()],
-        datasets: [{
-          label: 'events per hour',
-          backgroundColor: '#d8dde6',
-          borderColor: 'black',
-          borderWidth: 1,
-          data: hourly
-        }]
+        datasets: [dataset]
       },
       options: {
         layout: {
