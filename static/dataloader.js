@@ -20,7 +20,6 @@ function parseLines(lines){
   return lines.split('\n')
     .filter(line => line) //remove empty
     .map(parseLine);
-  // console.log(lines.split('\n'));
 }
 
 function parseLine(line){
@@ -30,7 +29,7 @@ function parseLine(line){
   return {
     timestamp: timestamp,
     date: date,
-    hour: hour,
+    hour: parseInt(hour),
     uid: uid,
     channel: channel,
     event: event
