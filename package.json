@@ -1,0 +1,22 @@
+{
+  "name": "futel-usage-viz",
+  "version": "1.0.0",
+  "description": "Some graphs showing usage data",
+  "main": "index.js",
+  "scripts": {
+    "app": "node src/app"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/breedx2/futel-usage-viz.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/breedx2/futel-usage-viz/issues"
+  },
+  "homepage": "https://github.com/breedx2/futel-usage-viz#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
