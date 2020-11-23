@@ -23,7 +23,6 @@ function updateSelection(data){
 
 function selectionChanged(event){
   const sel = document.getElementById("byhoursel");
-  console.log(sel.value);
   const holder = document.querySelector("data");
   drawByHourChart(holder.data, sel.value);
 }
