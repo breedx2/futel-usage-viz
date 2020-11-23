@@ -7,40 +7,77 @@ loadData()
     const holder = document.querySelector("data");
     holder.data = data;
     updateHandlers();
-    updateSelectionEvents(data);
+    addSelectableEvents(data);
     drawByHourChart(data);
+    drawByDateChart(data);
     drawYearSummary(data);
   });
 
 function updateHandlers(){
   const sel = document.getElementById("byhoursel");
-  sel.addEventListener('change', selectionChanged);
+  sel.addEventListener('change', byHourSelectionChanged);
   document.getElementById('byhourstacked').addEventListener('change', () => {
-    selectionChanged();
+    byHourSelectionChanged();
   });
 }
 
-function updateSelectionEvents(data){
+function addSelectableEvents(data){
   const names = eventNames(data);
-  const sel = document.getElementById("byhoursel");
-  names.forEach(name => {
-    var option = document.createElement("option");
-    option.text = name;
-    sel.add(option);
+  ['byhoursel', 'bydatesel'].forEach(selName => {
+    const sel = document.getElementById(selName);
+    names.forEach(name => {
+      var option = document.createElement('option');
+      option.text = name;
+      sel.add(option);
+    });
   });
 }
 
-function selectionChanged(event){
+function byHourSelectionChanged(event){
   const sel = document.getElementById("byhoursel");
   const holder = document.querySelector("data");
   drawByHourChart(holder.data, sel.value);
 }
 
+function drawByDateChart(data, eventType) {
+  const filtered = omitIncoming(filterEvents(data, eventType === 'all' ? null : eventType));
+
+  const datasets = buildDateDatasets(filtered);
+  console.log(datasets);
+  const dateLabels = getOrderedDates(filtered);
+  // console.log(dateLabels);
+
+  if(charts.byDateChart){
+    charts.byDateChart.clear();
+    charts.byDateChart.data.datasets = datasets;
+    charts.byDateChart.update();
+    return;
+  }
+  const ctx = document.getElementById('bydatecnv').getContext('2d');
+  charts.byDateChart = new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: dateLabels,
+        datasets: datasets
+      },
+      options: {
+        layout: {
+          padding: { left: 100, right: 100}
+        },
+        legend: {
+            position: 'bottom',
+            display: true
+         },
+      }
+  });
+}
+
+
 function drawByHourChart(data, eventType) {
-  const filtered = filterEvents(data, eventType === 'all' ? null : eventType);
+  const filtered = omitIncoming(filterEvents(data, eventType === 'all' ? null : eventType));
   const isStacked = document.querySelector('#byhourstacked').checked;
 
-  const datasets = buildHourlyDatasets(omitIncoming(filtered), isStacked);
+  const datasets = buildHourlyDatasets(filtered, isStacked);
 
   if(charts.byHourChart){
     charts.byHourChart.clear();
@@ -100,6 +137,32 @@ function buildHourlyDatasets(data, isStacked){
     borderWidth: 1,
     data: hourly
   }];
+}
+
+function buildDateDatasets(data){
+  const allEventNames = eventNames(data);
+  const eventToDateCount = data.reduce((acc,event) => {
+    if(!acc[event.event]){
+      acc[event.event] = {};
+    }
+    if(!acc[event.event][event.date]){
+      acc[event.event][event.date] = 0;
+    }
+    acc[event.event][event.date]++;
+    return acc;
+  }, {});
+  console.log(eventToDateCount);
+
+  // each event is a series
+  return allEventNames.map(event => {
+    const dates = getOrderedDates(data);
+    const series = dates.map(date => eventToDateCount[event][date] || 0);
+    return {
+      label: event,
+      borderColor: stringToColor(event),
+      data: series
+    }
+  });
 }
 
 function drawYearSummary(data){

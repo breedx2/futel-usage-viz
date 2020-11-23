@@ -49,3 +49,10 @@ function filterEvents(data, eventName){
   if(!eventName) return data;
   return data.filter(x => x.event === eventName);
 }
+
+function getOrderedDates(data){
+  return [...data.reduce((acc,event) => {
+    acc.add(event.date);
+    return acc;
+  }, new Set())].sort();
+}

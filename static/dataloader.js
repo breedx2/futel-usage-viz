@@ -2,8 +2,8 @@
 
 // add all the files here or cat into one giant one or monthly or something.
 const SOURCES = [
-  'metrics-20201030',
-  'metrics-20201031'
+  'data/metrics-20201030',
+  'data/metrics-20201031'
 ];
 
 function loadData(){
