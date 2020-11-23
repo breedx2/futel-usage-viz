@@ -19,3 +19,12 @@ cd static
 python3 -m http.server
 ```
 and point a browser at http://localhost:8000
+
+# notes
+
+* don't push raw metrics files that have not been scrubbed.  
+* very stupid scrubbing:
+```
+cat static/metrics-20201030 | \
+    sed -e "s/ CALLERID(number)=.[[:digit:]]\+, /, CALLERID(number)=0000000000, /"
+```

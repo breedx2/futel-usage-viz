@@ -6,15 +6,23 @@ loadData()
     console.log(data);
     const holder = document.querySelector("data");
     holder.data = data;
+    updateHandlers();
     updateSelectionEvents(data);
     drawByHourChart(data);
     drawYearSummary(data);
   });
 
+function updateHandlers(){
+  const sel = document.getElementById("byhoursel");
+  sel.addEventListener('change', selectionChanged);
+  document.getElementById('byhourstacked').addEventListener('change', () => {
+    selectionChanged();
+  });
+}
+
 function updateSelectionEvents(data){
   const names = eventNames(data);
   const sel = document.getElementById("byhoursel");
-  sel.addEventListener('change', selectionChanged);
   names.forEach(name => {
     var option = document.createElement("option");
     option.text = name;
@@ -30,36 +38,68 @@ function selectionChanged(event){
 
 function drawByHourChart(data, eventType) {
   const filtered = filterEvents(data, eventType === 'all' ? null : eventType);
-  const hourly = byHour(omitIncoming(filtered));
+  const isStacked = document.querySelector('#byhourstacked').checked;
 
-  const dataset = {
-    label: 'events per hour',
-    backgroundColor: '#d8dde6',
-    borderColor: 'black',
-    borderWidth: 1,
-    data: hourly
-  };
+  const datasets = buildHourlyDatasets(omitIncoming(filtered), isStacked);
 
   if(charts.byHourChart){
     charts.byHourChart.clear();
-    charts.byHourChart.data.datasets[0] = dataset;
+    charts.byHourChart.data.datasets = datasets;
     charts.byHourChart.update();
     return;
   }
-
   const ctx = document.getElementById('byhourcnv').getContext('2d');
   charts.byHourChart = new Chart(ctx, {
       type: 'bar',
       data: {
         labels: [...Array(24).keys()],
-        datasets: [dataset]
+        datasets: datasets
       },
       options: {
         layout: {
           padding: { left: 100, right: 100}
-        }
+        },
+        scales: {
+          y: {
+            stacked: isStacked
+          }
+        },
+        legend: {
+            position: 'bottom',
+            display: isStacked
+         },
       }
   });
+}
+
+function buildHourlyDatasets(data, isStacked){
+  if(isStacked){
+    const setsByEvent = data.reduce((acc,event) => {
+      if(!acc[event.event]){
+        acc[event.event] = emptyHourlyArray();
+      }
+      acc[event.event][event.hour]++;
+      return acc;
+    }, {});
+    return Object.keys(setsByEvent).map(eventName =>
+      ({
+        stack: 'stack0',
+        label: eventName,
+        backgroundColor: stringToColor(eventName),
+        borderColor: 'black',
+        borderWidth: 1,
+        data: setsByEvent[eventName]
+      })
+    );
+  }
+  const hourly = byHour(data);
+  return [{
+    label: 'events per hour',
+    backgroundColor: '#d8dde6',
+    borderColor: 'black',
+    borderWidth: 1,
+    data: hourly
+  }];
 }
 
 function drawYearSummary(data){

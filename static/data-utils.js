@@ -20,11 +20,15 @@ function eventNames(data){
 }
 
 function byHour(events){
-  const result = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+  const result = emptyHourlyArray();
   events.forEach(event => {
     result[event.hour]++;
   })
   return result;
+}
+
+function emptyHourlyArray(){
+  return [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
 }
 
 function yearSummary(data){
