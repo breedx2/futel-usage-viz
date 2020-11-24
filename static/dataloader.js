@@ -2,8 +2,9 @@
 
 // add all the files here or cat into one giant one or monthly or something.
 const SOURCES = [
-  './data/metrics-20201030',
-  './data/metrics-20201031'
+  './data/metrics-2010-10.txt'
+  // './data/metrics-20201030',
+  // './data/metrics-20201031'
 ];
 
 function loadData(){
@@ -23,7 +24,7 @@ function parseLines(lines){
 }
 
 function parseLine(line){
-  const re = /(\d\d\d\d-\d\d-\d\d) (\d\d):.* CALLERID\(number\)=\+?\d+, UNIQUEID=(.*), CHANNEL=(.*), name=(.*)/;
+  const re = /(\d\d\d\d-\d\d-\d\d) (\d\d):.* CALLERID\(number\)=\+?\w+, UNIQUEID=(.*), CHANNEL=(.*), name=(.*)/;
   const [x, date, hour, uid, channel, event] = line.match(re);
   const [xx, timestamp] = line.match(/^(.*) CALLERID.*/);
   return {
