@@ -8,7 +8,7 @@ const SOURCES = [
 
 function loadData(){
   const promises = SOURCES.map(source =>
-    fetch(`/${source}`)
+    fetch(`${source}`)
       .then(response => response.text())
       .then(body => parseLines(body))
   );
