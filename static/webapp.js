@@ -17,6 +17,10 @@ function updateHandlers(){
   const sel = document.getElementById("byhoursel");
   sel.addEventListener('change', byHourSelectionChanged);
   document.getElementById('byhourstacked').addEventListener('change', () => {
+    if(charts.byHourChart){
+      charts.byHourChart.destroy();
+      charts.byHourChart = null;
+    }
     byHourSelectionChanged();
   });
 }
