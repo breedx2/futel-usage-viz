@@ -4,7 +4,7 @@
   "description": "Some graphs showing usage data",
   "main": "index.js",
   "scripts": {
-    "app": "node src/app"
+    "server": "node src/server"
   },
   "repository": {
     "type": "git",
@@ -17,6 +17,9 @@
   },
   "homepage": "https://github.com/breedx2/futel-usage-viz#readme",
   "dependencies": {
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "gunzip-maybe": "^1.4.2",
+    "minimist": "^1.2.5",
+    "tar-stream": "^2.1.4"
   }
 }

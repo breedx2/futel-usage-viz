@@ -9,7 +9,7 @@ run a webserver to handle the js fetch calls.
 With node:
 ```
 npm install
-npm run app
+npm run server
 ```
 and point a browser at http://localhost:8080/
 
