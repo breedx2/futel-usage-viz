@@ -12,6 +12,7 @@ import FileInTarHandler from './file-in-tar.js';
 import LineParser from './line-parser.js';
 import LineHandler from './line-handler.js';
 import EventFilter from './event-filter.js';
+import Aggregagotron from './aggregagotron.js';
 
 const infile = argv.in || argv.i;
 const outdir = argv.outdir || argv.o;
@@ -33,9 +34,8 @@ console.log(`reading from ${infile} and outputting to ${outdir}`);
 
 const extract = tar.extract()
 
-const lineParser = new LineParser();
-const eventFilter = new EventFilter();
-const lineHandler = new LineHandler(lineParser, eventFilter);
+const aggregagotron = new Aggregagotron();
+const lineHandler = buildLineHandler(aggregagotron);
 
 extract.on('entry', (header, stream, next) => {
   const fileHandler = new FileInTarHandler({
@@ -49,8 +49,16 @@ extract.on('entry', (header, stream, next) => {
 extract.on('finish', function() {
   console.log('All done.');
   //TODO: Flush in-memory aggregators to files
+  aggregagotron.results();
 });
 
 fs.createReadStream(infile)
   .pipe(gunzip())
   .pipe(extract);
+
+// some fascinating construction
+function buildLineHandler(aggregagotron){
+  const lineParser = new LineParser();
+  const eventFilter = new EventFilter();
+  return new LineHandler(lineParser, eventFilter, aggregagotron);
+}
