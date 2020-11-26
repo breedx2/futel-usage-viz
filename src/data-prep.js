@@ -8,8 +8,9 @@ const argv = minimist(process.argv.slice(2));
 import fs from 'fs';
 import tar from 'tar-stream';
 import gunzip from 'gunzip-maybe';
-import readline from 'readline';
 import FileInTarHandler from './file-in-tar.js';
+import LineParser from './line-parser.js';
+import LineHandler from './line-handler.js';
 
 const infile = argv.in || argv.i;
 const outdir = argv.outdir || argv.o;
@@ -31,28 +32,18 @@ console.log(`reading from ${infile} and outputting to ${outdir}`);
 
 const extract = tar.extract()
 
-async function handleTarballEntry(header, stream, next) {
-  // header is the tar header
-  // stream is the content body (might be an empty stream)
-  // call next when you are done with this entry
+const lineParser = new LineParser();
+const lineHandler = new LineHandler(lineParser);
 
-  const lineReader = readline.createInterface({
-    input: stream
+extract.on('entry', (header, stream, next) => {
+  const fileHandler = new FileInTarHandler({
+    extract,
+    next,
+    lineHandler
   });
+  fileHandler.doEntry(header, stream)
+});
 
-  console.log(header);
-  stream.on('end', function() {
-    next() // ready for next entry
-  })
-
-  stream.resume() // just auto drain the stream
-
-  for await(const line of lineReader){
-    console.log(line);
-  }
-}
-
-extract.on('entry', handleTarballEntry);
 extract.on('finish', function() {
   console.log('All done.');
   //TODO: Flush in-memory aggregators to files
