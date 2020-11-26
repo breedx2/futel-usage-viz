@@ -13,8 +13,6 @@ class FileInTarHandler {
   async doEntry(header, stream) {
     // header is the tar header
     // stream is the content body (might be an empty stream)
-    // call next when you are done with this entry
-
     const self = this;
     const lineReader = readline.createInterface({
       input: stream

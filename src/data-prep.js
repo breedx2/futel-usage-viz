@@ -11,6 +11,7 @@ import gunzip from 'gunzip-maybe';
 import FileInTarHandler from './file-in-tar.js';
 import LineParser from './line-parser.js';
 import LineHandler from './line-handler.js';
+import EventFilter from './event-filter.js';
 
 const infile = argv.in || argv.i;
 const outdir = argv.outdir || argv.o;
@@ -33,7 +34,8 @@ console.log(`reading from ${infile} and outputting to ${outdir}`);
 const extract = tar.extract()
 
 const lineParser = new LineParser();
-const lineHandler = new LineHandler(lineParser);
+const eventFilter = new EventFilter();
+const lineHandler = new LineHandler(lineParser, eventFilter);
 
 extract.on('entry', (header, stream, next) => {
   const fileHandler = new FileInTarHandler({
