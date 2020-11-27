@@ -1,5 +1,8 @@
 'use strict';
 
+// silly test server that is used basically only for development, isn't
+// really required
+
 const port = 8080;
 const express = require("express");
 const app = express();

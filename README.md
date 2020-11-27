@@ -9,7 +9,7 @@ run a webserver to handle the js fetch calls.
 With node:
 ```
 npm install
-npm run app
+npm run server
 ```
 and point a browser at http://localhost:8080/
 
@@ -19,6 +19,18 @@ cd static
 python3 -m http.server
 ```
 and point a browser at http://localhost:8000
+
+# data prep
+
+When the data changes, we need to run a tool to pre-aggregate this data.
+
+```
+node --experimental-json-modules src/data-prep.js -i metrics.tgz -o outdir
+```
+(the experimental bit is there to allow importing json files)
+
+TODO: Show usage and make me more helpful!
+
 
 # notes
 
