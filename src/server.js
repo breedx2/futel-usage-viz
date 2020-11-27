@@ -4,7 +4,7 @@
 // really required
 
 const port = 8080;
-const express = require("express");
+import express from 'express';
 const app = express();
 
 app.use(express.static("static"));
