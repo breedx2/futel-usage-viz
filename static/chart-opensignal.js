@@ -5,6 +5,7 @@ function drawAllOpenSignal() {
       drawOpenSignalHandsetMenu(data);
       drawOpenSignalRemoteMenu(data);
       drawOpenSignalHandsetContent(data);
+      drawOpenSignalRemoteContent(data);
     });
 }
 
@@ -13,7 +14,8 @@ function drawOpenSignalHandsetMenu(data) {
     data: data.handsetPickups,
     chartId: 'os-handset-menu',
     label: 'OpenSignal handset pickups',
-    color: stringToColor("OpenSignal handset pickups.")
+    color: stringToColor("OpenSignal handset pickups."),
+    globalChartNameRef: 'opensignalHandsetMenuChart'
   });
 }
 
@@ -22,7 +24,8 @@ function drawOpenSignalRemoteMenu(data) {
     data: data.remoteMenu,
     chartId: 'os-remote-menu',
     label: 'OpenSignal remote menu',
-    color: stringToColor("OpenSignal remote menu..")
+    color: stringToColor("OpenSignal remote menu.."),
+    globalChartNameRef: 'opensignalRemoteMenuChart'
   });
 }
 
@@ -32,7 +35,7 @@ function drawOpenSignalMenu(opts) {
   const data = Object.values(series);
 
   const ctx = document.getElementById(opts.chartId).getContext('2d');
-  charts.opensignalHandsetMenuChart = new Chart(ctx, {
+  charts[opts.globalChartNameRef] = new Chart(ctx, {
     type: 'line',
     data: {
       labels: labels,
@@ -49,13 +52,26 @@ function drawOpenSignalMenu(opts) {
 }
 
 function drawOpenSignalHandsetContent(data) {
-  const opts = {
-    chartId: 'os-handset-content'
-  }
-  const [start, end] = dateRangeMultiSeries(data.handsetContent);
-  const peoplesHomesData = buildDateSeriesRange(data.handsetContent.peoples_homes, start, end);
-  const conversationsData = buildDateSeriesRange(data.handsetContent.conversations, start, end);
-  const missedConnData = buildDateSeriesRange(data.handsetContent.missed_connections, start, end);
+  drawOpenSignalContent({
+    chartId: 'os-handset-content',
+    multiSeries: data.handsetContent,
+    globalChartNameRef: 'opensignalHandsetContent'
+  });
+}
+
+function drawOpenSignalRemoteContent(data) {
+  drawOpenSignalContent({
+    chartId: 'os-remote-content',
+    multiSeries: data.remoteContent,
+    globalChartNameRef: 'opensignalRemoteContent'
+  })
+}
+
+function drawOpenSignalContent(opts) {
+  const [start, end] = dateRangeMultiSeries(opts.multiSeries);
+  const peoplesHomesData = buildDateSeriesRange(opts.multiSeries.peoples_homes, start, end);
+  const conversationsData = buildDateSeriesRange(opts.multiSeries.conversations, start, end);
+  const missedConnData = buildDateSeriesRange(opts.multiSeries.missed_connections, start, end);
 
   const datasets = [
     {
@@ -74,10 +90,11 @@ function drawOpenSignalHandsetContent(data) {
       data: Object.values(missedConnData),
     }
   ];
-
+  console.log(datasets);
   const labels = Object.keys(peoplesHomesData);
+  console.log(labels);
   const ctx = document.getElementById(opts.chartId).getContext('2d');
-  charts.opensignalHandsetMenuChart = new Chart(ctx, {
+  charts[opts.globalChartNameRef] = new Chart(ctx, {
     type: 'line',
     data: {
       labels: labels,
