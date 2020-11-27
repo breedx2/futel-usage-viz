@@ -4,6 +4,7 @@ function drawAllOpenSignal(){
     .then(response => response.json())
     .then(data => {
       drawOpenSignalHandsetMenu(data);
+      drawOpenSignalRemoteMenu(data);
     });
 }
 
@@ -13,13 +14,6 @@ function drawOpenSignalHandsetMenu(data){
     .map(entry => entry[1]);
   const labels = Object.entries(pickups)
       .map(entry => entry[0]);
-
-  const datasets = [{
-      label: "OpenSignal handset pickups",
-      borderColor: stringToColor("OpenSignal handset pickups"),
-      data: handsetPickupData
-  }];
-  console.log(datasets);
 
   const ctx = document.getElementById('os-handset-menu').getContext('2d');
   charts.opensignalHandsetMenuChart = new Chart(ctx, {
@@ -37,6 +31,31 @@ function drawOpenSignalHandsetMenu(data){
       }
   });
 }
+
+function drawOpenSignalRemoteMenu(data){
+  const remotes = buildDateSeries(data.remoteMenu);
+  const remoteMenuData = Object.entries(remotes)
+    .map(entry => entry[1]);
+  const labels = Object.entries(remotes)
+      .map(entry => entry[0]);
+
+  const ctx = document.getElementById('os-remote-menu').getContext('2d');
+  charts.opensignalHandsetMenuChart = new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: labels,
+        datasets: [{
+          label: 'OpenSignal remote menu',
+          borderColor: stringToColor("OpenSignal remote menu.."),
+          data: remoteMenuData,
+        }],
+      },
+      options: {
+        responsive: true
+      }
+  });
+}
+
 
 // ensures the data has consistent date range (no date gaps)
 function buildDateSeries(data){
