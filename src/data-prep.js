@@ -13,6 +13,7 @@ import LineParser from './line-parser.js';
 import LineHandler from './line-handler.js';
 import EventFilter from './event-filter.js';
 import Aggregagotron from './aggregagotron.js';
+import OutputWriter from './output-writer.js';
 
 const infile = argv.in || argv.i;
 const outdir = argv.outdir || argv.o;
@@ -35,6 +36,7 @@ console.log(`reading from ${infile} and outputting to ${outdir}`);
 const extract = tar.extract()
 
 const aggregagotron = new Aggregagotron();
+const outputWriter = new OutputWriter(outdir);
 const lineHandler = buildLineHandler(aggregagotron);
 
 extract.on('entry', (header, stream, next) => {
@@ -49,7 +51,9 @@ extract.on('entry', (header, stream, next) => {
 extract.on('finish', function() {
   console.log('All done.');
   //TODO: Flush in-memory aggregators to files
-  aggregagotron.results();
+  const results = aggregagotron.results();
+  outputWriter.write(results);
+
 });
 
 fs.createReadStream(infile)

@@ -10,19 +10,23 @@ class Aggregagotron {
 
   constructor(){
     // FIXME: lazy non-injection
-    this.delegates = [
-      new AggPerDate(),
-      new AggPerMonth()
-    ];
+    this.delegates = {
+      'eventsPerDate': new AggPerDate(),
+      'eventsPerMonth': new AggPerMonth()
+    };
   }
 
   apply(event){
-    this.delegates.forEach(d => d.apply(event));
+    Object.values(this.delegates).forEach(d => d.apply(event));
   }
 
   //TODO: Hook this into some marshallers
   results(){
-    console.log(JSON.stringify(this.delegates[1].result(), null, '\t'));
+    const result = {};
+    for(const [k,v] of Object.entries(this.delegates)){
+      result[k] = v.result();
+    }
+    return result;
   }
 
 }

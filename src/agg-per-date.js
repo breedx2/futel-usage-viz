@@ -19,28 +19,28 @@ data looks like this (should be sparse):
 */
 class AggPerDate {
 
-  constructor(){
+  constructor() {
     this.data = {};
   }
 
-  apply(event){
+  apply(event) {
     this._inc(this._getDate(event.date), event.name);
     // console.log(this.data);
   }
 
-  result(){
+  result() {
     return this.data;
   }
 
-  _inc(date, name){
-    if(!date[name]){
+  _inc(date, name) {
+    if (!date[name]) {
       date[name] = 0;
     }
     date[name]++;
   }
 
-  _getDate(date){
-    if(!this.data[date]){
+  _getDate(date) {
+    if (!this.data[date]) {
       this.data[date] = {};
     }
     return this.data[date];
