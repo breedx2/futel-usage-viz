@@ -9,45 +9,37 @@ function drawAllOpenSignal(){
 }
 
 function drawOpenSignalHandsetMenu(data){
-  const pickups = buildDateSeries(data.handsetPickups);
-  const handsetPickupData = Object.entries(pickups)
-    .map(entry => entry[1]);
-  const labels = Object.entries(pickups)
-      .map(entry => entry[0]);
-
-  const ctx = document.getElementById('os-handset-menu').getContext('2d');
-  charts.opensignalHandsetMenuChart = new Chart(ctx, {
-      type: 'line',
-      data: {
-        labels: labels,
-        datasets: [{
-          label: 'OpenSignal handset pickups',
-          borderColor: stringToColor("OpenSignal handset pickups."),
-          data: handsetPickupData,
-        }],
-      },
-      options: {
-        responsive: true
-      }
+  drawMenu({
+    data: data.handsetPickups,
+    chartId: 'os-handset-menu',
+    label: 'OpenSignal handset pickups',
+    color: stringToColor("OpenSignal handset pickups.")
   });
 }
 
 function drawOpenSignalRemoteMenu(data){
-  const remotes = buildDateSeries(data.remoteMenu);
-  const remoteMenuData = Object.entries(remotes)
-    .map(entry => entry[1]);
-  const labels = Object.entries(remotes)
-      .map(entry => entry[0]);
+  drawMenu({
+    data: data.remoteMenu,
+    chartId: 'os-remote-menu',
+    label: 'OpenSignal remote menu',
+    color: stringToColor("OpenSignal remote menu..")
+  });
+}
 
-  const ctx = document.getElementById('os-remote-menu').getContext('2d');
+function drawMenu(opts){
+  const series = buildDateSeries(opts.data);
+  const labels = Object.keys(series);
+  const data = Object.values(series);
+
+  const ctx = document.getElementById(opts.chartId).getContext('2d');
   charts.opensignalHandsetMenuChart = new Chart(ctx, {
       type: 'line',
       data: {
         labels: labels,
         datasets: [{
-          label: 'OpenSignal remote menu',
-          borderColor: stringToColor("OpenSignal remote menu.."),
-          data: remoteMenuData,
+          label: opts.label,
+          borderColor: opts.color,
+          data: data,
         }],
       },
       options: {
