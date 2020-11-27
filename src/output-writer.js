@@ -11,7 +11,8 @@ class OutputWriter {
     // FIXME: lazy non-injection
     this.delegates = {
       'eventsPerDate': new JsonWriter(outputDir),
-      'eventsPerMonth': new JsonWriter(outputDir)
+      'eventsPerMonth': new JsonWriter(outputDir),
+      'openSignal': new JsonWriter(outputDir)
     }
   }
 
@@ -38,7 +39,7 @@ class OutputWriter {
   async _doWrite(name, results) {
     const delegate = this.delegates[name];
     if(!delegate){
-      return console.log(`*** ERROR: NO SUCH DELEGATE WRITER: ${name}`);
+      return console.log(`*** WARNING: NO SUCH DELEGATE WRITER: ${name}`);
     }
     console.log(`Doing output for ${name}`);
     return delegate.write(name, results);

@@ -5,6 +5,7 @@
 
 import AggPerDate from './agg-per-date.js';
 import AggPerMonth from './agg-per-month.js';
+import AggOpenSignal from './agg-opensignal.js';
 
 class Aggregagotron {
 
@@ -12,7 +13,8 @@ class Aggregagotron {
     // FIXME: lazy non-injection
     this.delegates = {
       'eventsPerDate': new AggPerDate(),
-      'eventsPerMonth': new AggPerMonth()
+      'eventsPerMonth': new AggPerMonth(),
+      'openSignal': new AggOpenSignal()
     };
   }
 
