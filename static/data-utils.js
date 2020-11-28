@@ -56,3 +56,16 @@ function getOrderedDates(data){
     return acc;
   }, new Set())].sort();
 }
+
+function formatDate(d){
+  const yyyy = '' + d.getFullYear();
+  var mm = '' + (d.getMonth()+1);
+  if(mm.length < 2){
+    mm = '0' + mm;
+  }
+  var dd = '' + d.getDate();
+  if(dd.length < 2){
+    dd = '0' + dd;
+  }
+  return `${yyyy}-${mm}-${dd}`;
+}

@@ -8,6 +8,7 @@ loadData()
     holder.data = data;
     updateHandlers();
     addSelectableEvents(data);
+    drawAllOpenSignal();
     drawByHourChart(data);
     drawByDateChart(data);
     drawYearSummary(data);

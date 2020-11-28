@@ -1,5 +1,5 @@
 # futel-usage-viz
-Some graphs showing usage data
+Some graphs showing [futel usage data](https://breedx2.github.io/futel-usage-viz/static/)
 
 # usage
 
