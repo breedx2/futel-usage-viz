@@ -7,6 +7,7 @@
   <link rel="stylesheet" href="webapp.css"/>
   <script src="dataloader.js"></script>
   <script src="chart-byhour.js"></script>
+  <script src="chart-opensignal.js"></script>
   <script src="chart-bydate.js"></script>
   <script src="chart-yearsummary.js"></script>
   <script src="ui-utils.js"></script>
@@ -24,6 +25,7 @@
   <li>by month</li>
   <li><a href="#" onclick='showChart("byhour")'>by hour of day</a></li>
   <li><a href="#" onclick='showChart("yeartotals")'>year totals</a></li>
+  <li><a href="#" onclick='showChart("opensignal")'>OpenSignal</a></li>
 </ul>
 
 <div id="bydate" class="chartholder">
@@ -45,9 +47,24 @@
   <canvas id="byhourcnv"></canvas>
 </div>
 
+<div id="opensignal" class="chartholder start-hidden">
+  <h2>OpenSignal</h2>
+  <br/>
+  <h3>OpenSignal handset pickups</h3>
+  <canvas id="os-handset-menu"></canvas>
+
+  <h3>OpenSignal handset content</h3>
+  <canvas id="os-handset-content"></canvas>
+
+  <h3>OpenSignal remote menu</h3>
+  <canvas id="os-remote-menu"></canvas>
+
+  <h3>OpenSignal remote content</h3>
+  <canvas id="os-remote-content"></canvas>
+</div>
+
 <div id="yeartotals" class="chartholder start-hidden">
     <h2>Year Summary</h2>
-
 </div>
 
 <h2>
