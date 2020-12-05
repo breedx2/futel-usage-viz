@@ -1,6 +1,6 @@
 // Not chart specific stuff, but html helpers etc.
 
-function showChart(id){
+function showChart(id, link){
   const holders = document.querySelectorAll('.chartholder');
   for(var i=0; i < holders.length; i++){
     if(holders[i].id === id){
@@ -10,6 +10,14 @@ function showChart(id){
       hideElement(holders[i]);
     }
   }
+
+  const menuLinks = document.querySelectorAll('#chartpicker li a');
+  for(var i=0; i < menuLinks.length; i++){
+      deactivateChartMenuItem(menuLinks[i].parentElement);
+      menuLinks[i].classList.remove('active');
+  }
+  activateChartMenuItem(link.parentElement);
+  link.classList.add('active');
 }
 
 function showElement(em){
@@ -18,6 +26,14 @@ function showElement(em){
 
 function hideElement(em){
   em.style.display = 'none';
+}
+
+function activateChartMenuItem(elem){
+  elem.classList.add("active");
+}
+
+function deactivateChartMenuItem(elem){
+  elem.classList.remove("active");
 }
 
 //attribution: https://stackoverflow.com/questions/3426404/create-a-hexadecimal-colour-based-on-a-string-with-javascript
