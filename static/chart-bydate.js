@@ -2,11 +2,14 @@
 function byDateSelectionChanged(event){
   const sel = document.getElementById("bydatesel");
   const holder = document.querySelector("data");
-  drawByDateChart(holder.data, sel.value);
+
+  const eventTypes =  [...sel.selectedOptions].map(x => x.label);
+  console.log(eventTypes);
+  drawByDateChart(holder.data, eventTypes);
 }
 
-function drawByDateChart(data, eventType) {
-  const filtered = omitIncoming(filterEvents(data, eventType === 'all' ? null : eventType));
+function drawByDateChart(data, eventTypes = ['all']) {
+  const filtered = omitIncoming(filterEventsByNames(data, eventTypes));
 
   const datasets = buildDateDatasets(filtered);
   const dateLabels = getOrderedDates(filtered);

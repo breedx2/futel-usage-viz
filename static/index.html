@@ -57,12 +57,20 @@
 </div>
 
 <div id="bydate" class="chartholder start-hidden">
-  <h2>Events By Date</h2>
-  <select id="bydatesel" name="bydatesel">
-    <option>all</option>
-  </select>
-  <br/>
-  <canvas id="bydatecnv"></canvas>
+  <h2>Events By Date
+    <a onclick='toggleSidebar("leftdate", "bydatewrapper")'>
+      <img src="images/gear-1119298__340.png" class='config-gear'/></a>
+  </h2>
+  <div id='leftdate' class='left-side-menu start-hidden' >
+    <b>EVENTS:</b>
+    <br/>
+    <select id="bydatesel" name="bydatesel" size='30' multiple='true'>
+      <option>all</option>
+    </select>
+  </div>
+  <div id='bydatewrapper' class="canvas-holder">
+    <canvas id="bydatecnv"></canvas>
+  </div>
 </div>
 
 <div id="byhour" class="chartholder start-hidden">

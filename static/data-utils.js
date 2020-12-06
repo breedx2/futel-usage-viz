@@ -12,7 +12,7 @@ function isNotIncoming(data){
   return !isIncoming(data);
 }
 
-//deprecated/old data format
+//TODO: deprecated/old data format
 function eventNames(data){
   return [...data.reduce( (acc,val) => {
     acc.add(val.event);
@@ -30,7 +30,7 @@ function allEventNames(data){
 }
 
 
-function byHour(events){
+function byHour(events){filterEvents
   const result = emptyHourlyArray();
   events.forEach(event => {
     result[event.hour]++;
@@ -56,9 +56,16 @@ function yearSummary(data){
   }, {});
 }
 
+//TODO: Deprecated / old format raw data
 function filterEvents(data, eventName){
   if(!eventName) return data;
   return data.filter(x => x.event === eventName);
+}
+
+//TODO: Deprecated / old format raw data
+function filterEventsByNames(data, eventNames){
+  if(eventNames.includes('all')) return data;
+  return data.filter(x => eventNames.includes(x.event));
 }
 
 function getOrderedDates(data){
