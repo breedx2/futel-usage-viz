@@ -22,6 +22,8 @@ function updateHandlers(){
     .addEventListener('change', byDateSelectionChanged);
   document.getElementById('bymonthsel')
     .addEventListener('change', byMonthSelectionChanged);
+  document.getElementById('bymonthyearsel')
+    .addEventListener('change', byMonthYearChanged);
   document.getElementById('byhourstacked').addEventListener('change', () => {
     if(charts.byHourChart){
       charts.byHourChart.destroy();
@@ -33,7 +35,7 @@ function updateHandlers(){
 
 function addSelectableEvents(data){
   const names = eventNames(data);
-  ['byhoursel', 'bydatesel', 'bymonthsel'].forEach(selName => {
+  ['byhoursel', 'bydatesel'].forEach(selName => {
     const sel = document.getElementById(selName);
     names.forEach(name => {
       var option = document.createElement('option');

@@ -30,12 +30,30 @@
 </ul>
 
 <div id="bymonth" class="chartholder">
-  <h2>Events By Month</h2>
-  <select id="bymonthsel" name="bymonthsel" multiple='true'>
-    <option>all</option>
-  </select>
-  <br/>
-  <canvas id="bymonthcnv"></canvas>
+  <h2>Events By Month
+      <a onclick='toggleSidebar("leftmonth", "bymonthwrapper")'>
+        <img src="images/gear-1119298__340.png" class='config-gear'/></a>
+  </h2>
+  <div id='leftmonth' class='left-side-menu start-hidden' >
+    <b>YEARS:</b>
+    <br/>
+    <select id="bymonthyearsel" name="bymonthyearsel" size='5' multiple='true'>
+      <option selected='true'>2016</option>
+      <option selected='true'>2017</option>
+      <option selected='true'>2018</option>
+      <option selected='true'>2019</option>
+      <option selected='true'>2020</option>
+    </select>
+    <br/>
+    <b>EVENTS:</b>
+    <br/>
+    <select id="bymonthsel" name="bymonthsel" size='30' multiple='true'>
+      <option>all</option>
+    </select>
+  </div>
+  <div id='bymonthwrapper' class="canvas-holder">
+    <canvas id="bymonthcnv"></canvas>
+  </div>
 </div>
 
 <div id="bydate" class="chartholder start-hidden">

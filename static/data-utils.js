@@ -12,12 +12,23 @@ function isNotIncoming(data){
   return !isIncoming(data);
 }
 
+//deprecated/old data format
 function eventNames(data){
   return [...data.reduce( (acc,val) => {
     acc.add(val.event);
     return acc;
   }, new Set())].sort();
 }
+
+// for data sources who look like { date: { event: count}, date: { event: count}, ...}
+function allEventNames(data){
+  const allNamesDuped = Object.entries(data).flatMap(e => Object.keys(e[1]));
+  return [...allNamesDuped.reduce( (acc,val) => {
+    acc.add(val);
+    return acc;
+  }, new Set())].sort();
+}
+
 
 function byHour(events){
   const result = emptyHourlyArray();
