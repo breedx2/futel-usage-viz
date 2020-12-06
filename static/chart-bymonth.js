@@ -15,9 +15,20 @@ function fetchByMonthData(event){
   return fetch('./data/eventsPerMonth.json')
     .then(response => response.json())
     .then(data => {
+      setMonthSelectable(data);
       rawByMonthJsonData = data;
       return data;
     });
+}
+
+function setMonthSelectable(data){
+  const sel = document.getElementById('bymonthsel');
+  const names = allEventNames(data);
+  names.forEach(name => {
+    var option = document.createElement('option');
+    option.text = name;
+    sel.add(option);
+  });
 }
 
 function drawByMonthChart(eventNamesToShow = ['all']) {
@@ -59,11 +70,7 @@ function drawByMonthChart(eventNamesToShow = ['all']) {
 
 function buildMonthDatasets(data){
 
-  const allNamesDuped = Object.entries(data).flatMap(e => Object.keys(e[1]));
-  const allNames = [...allNamesDuped.reduce( (acc,val) => {
-    acc.add(val);
-    return acc;
-  }, new Set())].sort()
+  const allNames = allEventNames(data);
 
   // each event is a series
   return allNames.map(eventName => {
