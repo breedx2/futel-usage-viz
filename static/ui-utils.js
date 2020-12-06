@@ -53,10 +53,6 @@ function stringToColor(str) {
 function toggleSidebar(leftId, wrapperId){
   const left = document.getElementById(leftId);
   const wrapper = document.getElementById(wrapperId);
-  console.log('yeah movo');
-  console.log(left.style.display);
-  console.log(left.classList);
-  console.log(left.classList.contains('start-hidden'))
   if(left.classList.contains('start-hidden')){
     console.log('showing sidebar');
     showSidebar(left, wrapper);
