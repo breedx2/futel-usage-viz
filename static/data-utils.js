@@ -68,11 +68,40 @@ function filterEventsByNames(data, eventNames){
   return data.filter(x => eventNames.includes(x.event));
 }
 
+//TODO: Deprecated / old format raw data
 function getOrderedDates(data){
   return [...data.reduce((acc,event) => {
     acc.add(event.date);
     return acc;
   }, new Set())].sort();
+}
+
+// ensures the data has consistent date range (no date gaps)
+function buildDateSeries(data) {
+  const first = new Date(Object.keys(data)[0]);
+  const last = new Date(Object.keys(data).slice(-1)[0]);
+  return buildDateSeriesRange(data, first, last);
+}
+
+function buildDateSeriesRange(data, first, last) {
+  const d = new Date(first);
+  const result = [];
+  while (d <= last) {
+    result.push(formatDate(d));
+    d.setDate(d.getDate() + 1);
+  }
+  const entries = result.map(d => [d, data[d] || 0]);
+  return Object.fromEntries(entries);
+}
+
+function buildDateRange(first, last){
+  const d = new Date(first);
+  const result = [];
+  while (d <= last) {
+    result.push(formatDate(d));
+    d.setDate(d.getDate() + 1);
+  }
+  return result;
 }
 
 function formatDate(d){

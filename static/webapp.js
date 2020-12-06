@@ -11,7 +11,7 @@ loadData()
     addSelectableEvents(data);
     drawAllOpenSignal();
     drawByHourChart(data);
-    drawByDateChart(data);
+    drawByDateChart();
     drawByMonthChart();
     drawYearSummary(data);
   });
@@ -36,7 +36,7 @@ function updateHandlers(){
 
 function addSelectableEvents(data){
   const names = eventNames(data);
-  ['byhoursel', 'bydatesel'].forEach(selName => {
+  ['byhoursel'].forEach(selName => {
     const sel = document.getElementById(selName);
     names.forEach(name => {
       var option = document.createElement('option');
