@@ -56,6 +56,10 @@ function drawByMonthChart(eventNamesToShow = ['all']) {
           datasets: datasets
         },
         options: {
+          title: {
+          text: 'Events By Month',
+          display: 'true'
+          },
           layout: {
             padding: { left: 100, right: 100}
           },
