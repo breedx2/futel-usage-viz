@@ -122,12 +122,7 @@ function buildDateSeries(data) {
 }
 
 function buildDateSeriesRange(data, first, last) {
-  const d = new Date(first);
-  const result = [];
-  while (d <= last) {
-    result.push(formatDate(d));
-    d.setDate(d.getDate() + 1);
-  }
+  const result = buildDateRange(first, last);
   const entries = result.map(d => [d, data[d] || 0]);
   return Object.fromEntries(entries);
 }
