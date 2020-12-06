@@ -2,11 +2,23 @@
 var rawByDateJsonData = null;
 
 function byDateSelectionChanged(event){
-  const sel = document.getElementById("bydatesel");
-  const holder = document.querySelector("data");
+  console.log('by date event selection changed');
+  grabStateAndDrawByDate();
+}
 
-  const eventTypes =  [...sel.selectedOptions].map(x => x.label);
-  drawByDateChart(eventTypes);
+function byDateYearChanged(event){
+  console.log('by date year changed');
+  grabStateAndDrawByDate();
+}
+
+function grabStateAndDrawByDate(){
+  const eventSel = document.getElementById("bydatesel");
+  const eventNames = [...eventSel.selectedOptions].map(x => x.label);
+
+  const yearSel = document.getElementById("bydateyearsel");
+  const years = [...yearSel.selectedOptions].map(x => x.label);
+
+  drawByDateChart(eventNames.length ? eventNames : ['all'], years);
 }
 
 async function fetchByDateData(event){
@@ -36,16 +48,22 @@ function setByDateSelectable(data){
   });
 }
 
-async function drawByDateChart(eventTypes = ['operator']) {
+async function drawByDateChart(eventTypes = ['operator'], yearsToShow = ['all']) {
   const data = await fetchByDateData();
   //TODO: Omit incoming data (or maybe it's omitted in source?)
 
-  const rawDatasets = buildDateDatasets(data);
+  const filteredEntries = Object.entries(data).filter(e => {
+    return yearsToShow.includes('all') ||
+      yearsToShow.includes(e[0].replace(/-\d\d-\d\d/, ''));
+  });
+  const yearFilteredData = Object.fromEntries(filteredEntries);
+
+  const rawDatasets = buildDateDatasets(yearFilteredData);
 
   const datasets = rawDatasets.filter(x => {
     return eventTypes.includes('all') || eventTypes.includes(x.label);
   });
-  const dateLabels = buildContinuousRangeFromDateKeyed(data);
+  const dateLabels = buildContinuousRangeFromDateKeyed(yearFilteredData);
 
   if(charts.byDateChart){
     charts.byDateChart.clear();
@@ -83,7 +101,6 @@ function buildDateDatasets(data){
 
   // each event is a series
   return allNames.map(eventName => {
-    // console.log(data['2019-11-01']);
     const series = allDates.map(date => {
       if(!data[date]) return 0;
       return data[date][eventName] || 0;
@@ -101,6 +118,5 @@ function buildDateDatasets(data){
 function buildContinuousRangeFromDateKeyed(data){
   const firstDate = new Date(Object.keys(data)[0]);
   const lastDate = new Date(Object.keys(data).slice(-1)[0]);
-
   return buildDateRange(firstDate, lastDate);
 }

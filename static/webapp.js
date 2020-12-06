@@ -25,6 +25,8 @@ function updateHandlers(){
     .addEventListener('change', byMonthSelectionChanged);
   document.getElementById('bymonthyearsel')
     .addEventListener('change', byMonthYearChanged);
+  document.getElementById('bydateyearsel')
+    .addEventListener('change', byDateYearChanged);
   document.getElementById('byhourstacked').addEventListener('change', () => {
     if(charts.byHourChart){
       charts.byHourChart.destroy();
