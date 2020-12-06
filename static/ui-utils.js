@@ -49,3 +49,28 @@ function stringToColor(str) {
   }
   return color;
 }
+
+function toggleSidebar(leftId, wrapperId){
+  const left = document.getElementById(leftId);
+  const wrapper = document.getElementById(wrapperId);
+  if(left.classList.contains('start-hidden')){
+    console.log('showing sidebar');
+    showSidebar(left, wrapper);
+  }
+  else{
+    console.log('hiding sidebar');
+    hideSidebar(left, wrapper);
+  }
+}
+
+function showSidebar(left, wrapper){
+  left.classList.remove("start-hidden");
+  wrapper.classList.remove("canvas-holder");
+  wrapper.classList.add("canvas-holder-compact");
+}
+
+function hideSidebar(left, wrapper){
+  left.classList.add("start-hidden");
+  wrapper.classList.add("canvas-holder");
+  wrapper.classList.remove("canvas-holder-compact");
+}

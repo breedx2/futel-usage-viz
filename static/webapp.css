@@ -48,3 +48,30 @@ data {
   color: white;
   background: black;
 }
+
+.left-side-menu select {
+    font-size: 9px;
+}
+
+.left-side-menu {
+  /* border: solid green 1px; */
+  font-size: 10px;
+  float: left;
+  width: 13%;
+}
+
+.canvas-holder {
+  width: 100%;
+  margin-left: 0;
+}
+
+.canvas-holder-compact {
+  /* border: solid pink 1px; */
+  width: 87%;
+  margin-left: 13%;
+}
+
+img.config-gear {
+  width: 25px;
+  cursor: pointer;
+}
