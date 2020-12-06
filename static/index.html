@@ -9,6 +9,7 @@
   <script src="chart-byhour.js"></script>
   <script src="chart-opensignal.js"></script>
   <script src="chart-bydate.js"></script>
+  <script src="chart-bymonth.js"></script>
   <script src="chart-yearsummary.js"></script>
   <script src="ui-utils.js"></script>
   <script src="data-utils.js"></script>
@@ -21,14 +22,23 @@
 <h1>Futel Usage</h1>
 
 <ul id='chartpicker'>
-  <li><a href="#" onclick='showChart("bydate")'>by date</a></li>
-  <li>by month</li>
-  <li><a href="#" onclick='showChart("byhour")'>by hour of day</a></li>
-  <li><a href="#" onclick='showChart("yeartotals")'>year totals</a></li>
-  <li><a href="#" onclick='showChart("opensignal")'>OpenSignal</a></li>
+  <li class='active'><a class='active' href="#" onclick='showChart("bymonth", this)'>by month</a></li>
+  <li><a href="#" onclick='showChart("bydate", this)'>by date</a></li>
+  <li><a href="#" onclick='showChart("byhour", this)'>by hour of day</a></li>
+  <li><a href="#" onclick='showChart("yeartotals", this)'>year totals</a></li>
+  <li><a href="#" onclick='showChart("opensignal", this)'>OpenSignal</a></li>
 </ul>
 
-<div id="bydate" class="chartholder">
+<div id="bymonth" class="chartholder">
+  <h2>Events By Month</h2>
+  <select id="bymonthsel" name="bymonthsel" multiple='true'>
+    <option>all</option>
+  </select>
+  <br/>
+  <canvas id="bymonthcnv"></canvas>
+</div>
+
+<div id="bydate" class="chartholder start-hidden">
   <h2>Events By Date</h2>
   <select id="bydatesel" name="bydatesel">
     <option>all</option>

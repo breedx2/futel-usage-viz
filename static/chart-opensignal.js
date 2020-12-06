@@ -90,9 +90,7 @@ function drawOpenSignalContent(opts) {
       data: Object.values(missedConnData),
     }
   ];
-  console.log(datasets);
   const labels = Object.keys(peoplesHomesData);
-  console.log(labels);
   const ctx = document.getElementById(opts.chartId).getContext('2d');
   charts[opts.globalChartNameRef] = new Chart(ctx, {
     type: 'line',

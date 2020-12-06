@@ -24,18 +24,27 @@ data {
   overflow: hidden;
 }
 
+#chartpicker li {
+  float: left;
+  padding-right: 10px;
+  /* background-color: pink; */
+}
+
+#chartpicker li.active {
+  background-color: #777777;
+  color: white;
+}
+
 #chartpicker li a {
   color: blue;
   text-decoration: none;
   padding: 15px;
 }
+#chartpicker li a.active {
+  color: white;
+}
 #chartpicker li a:hover {
   text-decoration: none;
   color: white;
   background: black;
-}
-
-#chartpicker li {
-  float: left;
-  padding-right: 10px;
 }
