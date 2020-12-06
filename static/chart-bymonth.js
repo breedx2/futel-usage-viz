@@ -84,9 +84,12 @@ async function drawByMonthChart(eventNamesToShow = ['all'], yearsToShow = ['all'
           padding: { left: 100, right: 100}
         },
         legend: {
-            position: 'bottom',
-            display: true
-         },
+          position: 'bottom',
+          display: true
+        },
+        animation: {
+          duration: 333
+        }
       }
   });
 }
