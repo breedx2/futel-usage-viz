@@ -1,15 +1,52 @@
 
+var rawByHourJsonData = null;
+
 function byHourSelectionChanged(event){
-  const sel = document.getElementById("byhoursel");
-  const holder = document.querySelector("data");
-  drawByHourChart(holder.data, sel.value);
+  console.log('By hour event selection changed.');
+  grabStateAndDrawByHour();
 }
 
-function drawByHourChart(data, eventType) {
-  const filtered = omitIncoming(filterEvents(data, eventType === 'all' ? null : eventType));
+function grabStateAndDrawByHour(){
+  const eventSel = document.getElementById("byhoursel");
+  const eventNames = [...eventSel.selectedOptions].map(x => x.label);
+  drawByHourChart(eventNames);
+}
+
+async function fetchByHourData(){
+  if(rawByHourJsonData){
+    return Promise.resolve(rawByHourJsonData);
+  }
+  console.log("Fetching by hour data from remote...");
+  return fetch('./data/eventsPerHourOfDay.json')
+    .then(response => response.json())
+    .then(data => {
+      setByHourSelectable(data);
+      rawByHourJsonData = data;
+      return rawByHourJsonData;
+    });
+}
+
+function setByHourSelectable(data){
+  const sel = document.getElementById('byhoursel');
+  const names = allEventNames(data);
+  names.forEach(name => {
+    const option = document.createElement('option');
+    option.text = name;
+    sel.add(option);
+  });
+}
+
+async function drawByHourChart(eventNamesToInclude = ['all']) {
+  const rawData = await fetchByHourData();
+
+  //TODO: Omit incoming or maybe omit it in the preprocessing?
+
   const isStacked = document.querySelector('#byhourstacked').checked;
 
-  const datasets = buildHourlyDatasets(filtered, isStacked);
+  var datasets = buildHourlyDatasets(rawData, eventNamesToInclude, isStacked);
+  if(isStacked){
+    datasets = datasets.filter(d => eventNamesToInclude.includes('all') || eventNamesToInclude.includes(d.label));
+  }
 
   if(charts.byHourChart){
     charts.byHourChart.clear();
@@ -41,27 +78,32 @@ function drawByHourChart(data, eventType) {
   });
 }
 
-function buildHourlyDatasets(data, isStacked){
+function buildHourlyDatasets(data, eventNamesToInclude, isStacked){
   if(isStacked){
-    const setsByEvent = data.reduce((acc,event) => {
-      if(!acc[event.event]){
-        acc[event.event] = emptyHourlyArray();
-      }
-      acc[event.event][event.hour]++;
-      return acc;
-    }, {});
-    return Object.keys(setsByEvent).map(eventName =>
-      ({
+    const eventNames = allEventNames(data);
+    return eventNames.map(eventName => {
+
+      const dataSet = emptyHourlyArray().map((v,i) => data[i][eventName] || 0);
+
+      return {
         stack: 'stack0',
         label: eventName,
         backgroundColor: stringToColor(eventName),
         borderColor: 'black',
         borderWidth: 1,
-        data: setsByEvent[eventName]
-      })
-    );
+        data: dataSet
+      };
+    });
   }
-  const hourly = byHour(data);
+  const hourly = Object.entries(data).reduce((acc,entry) => {
+    const month = entry[0];
+    const sum = Object.entries(entry[1])
+        .filter(e => eventNamesToInclude.includes('all') || eventNamesToInclude.includes(e[0]))
+        .map(e => e[1])
+        .reduce((acc,count) => acc + count, 0);
+    acc[month] = sum;
+    return acc;
+  }, emptyHourlyArray());
   return [{
     label: 'events per hour',
     backgroundColor: '#d8dde6',
