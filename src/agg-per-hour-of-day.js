@@ -7,7 +7,7 @@ class AggPerHourOfDay {
   }
 
   apply(event) {
-    const hour = event.timestamp.replace(/^\d\d\d\d-\d\d-\d\d (\d\d).*/, '$1');
+    const hour = event.hour;
     if(!this.data[hour]){
       this.data[hour] = {};
     }
