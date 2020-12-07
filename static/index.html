@@ -84,13 +84,19 @@
 </div>
 
 <div id="byhour" class="chartholder start-hidden">
-  <h2>Events By Hour of Day</h2>
-  <select id="byhoursel" name="byhoursel">
-    <option>all</option>
-  </select>
-  <input type="checkbox" id='byhourstacked'>stacked</input>
-  <br/>
-  <canvas id="byhourcnv"></canvas>
+  <h2>Events By Hour of Day
+    <a onclick='toggleSidebar("leftbyhour", "byhourwrapper")'>
+      <img src="images/gear-1119298__340.png" class='config-gear'/></a>
+  </h2>
+  <div id='leftbyhour' class='left-side-menu start-hidden' >
+    <input type="checkbox" id='byhourstacked'>stacked</input>
+    <select id="byhoursel" name="byhoursel" multiple="true" size='30'>
+      <option>all</option>
+    </select>
+  </div>
+  <div id='byhourwrapper' class="canvas-holder">
+    <canvas id="byhourcnv"></canvas>
+  </div>
 </div>
 
 <div id="opensignal" class="chartholder start-hidden">
