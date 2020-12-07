@@ -18,7 +18,7 @@ function grabStateAndDrawByMonth(){
   const yearSel = document.getElementById("bymonthyearsel");
   const years = [...yearSel.selectedOptions].map(x => x.label);
 
-  drawByMonthChart(eventNames.length ? eventNames : ['all'], years);
+  drawByMonthChart(eventNames.length ? eventNames : ['operator'], years);
 }
 
 async function fetchByMonthData(event){
@@ -45,7 +45,7 @@ function setMonthSelectable(data){
   });
 }
 
-async function drawByMonthChart(eventNamesToShow = ['all'], yearsToShow = ['all']) {
+async function drawByMonthChart(eventNamesToShow = ['operator'], yearsToShow = ['all']) {
   const data = await fetchByMonthData();
   const filteredEntries = Object.entries(data).filter(e => {
     return yearsToShow.includes('all') ||
