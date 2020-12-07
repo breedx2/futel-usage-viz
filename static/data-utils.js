@@ -106,13 +106,15 @@ function buildDateRange(first, last){
 
 function formatDate(d){
   const yyyy = '' + d.getFullYear();
-  var mm = '' + (d.getMonth()+1);
-  if(mm.length < 2){
-    mm = '0' + mm;
-  }
-  var dd = '' + d.getDate();
-  if(dd.length < 2){
-    dd = '0' + dd;
-  }
+  var mm = pad2(d.getMonth()+1);
+  var dd = pad2(d.getDate());
   return `${yyyy}-${mm}-${dd}`;
+}
+
+function pad2(value){
+  var result = '' + value;
+  if(result.length < 2){
+    return '0' + result;
+  }
+  return result;
 }
