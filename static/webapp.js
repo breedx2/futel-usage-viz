@@ -10,7 +10,7 @@ loadData()
     updateHandlers();
     addSelectableEvents(data);
     drawAllOpenSignal();
-    drawByHourChart(data);
+    drawByHourChart();
     drawByDateChart();
     drawByMonthChart();
     drawYearSummary(data);

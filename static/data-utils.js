@@ -29,15 +29,6 @@ function allEventNames(data){
   }, new Set())].sort();
 }
 
-
-function byHour(events){filterEvents
-  const result = emptyHourlyArray();
-  events.forEach(event => {
-    result[event.hour]++;
-  })
-  return result;
-}
-
 function emptyHourlyArray(){
   return [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
 }
