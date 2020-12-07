@@ -29,8 +29,15 @@ node --experimental-json-modules src/data-prep.js -i metrics.tgz -o outdir
 ```
 (the experimental bit is there to allow importing json files)
 
-TODO: Show usage and make me more helpful!
+or more simply, if you:
+* have metrics.tgz in the project dir
+* want to output to the `static/data` dir *and*
+* don't mind overwriting files `static/data`
 
+then you can simply:
+```
+npm run preprocess
+```
 
 # notes
 
