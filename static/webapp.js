@@ -8,7 +8,6 @@ loadData()
     const holder = document.querySelector("data");
     holder.data = data;
     updateHandlers();
-    addSelectableEvents(data);
     drawAllOpenSignal();
     drawByHourChart();
     drawByDateChart();
@@ -33,17 +32,5 @@ function updateHandlers(){
       charts.byHourChart = null;
     }
     byHourSelectionChanged();
-  });
-}
-
-function addSelectableEvents(data){
-  const names = eventNames(data);
-  ['byhoursel'].forEach(selName => {
-    const sel = document.getElementById(selName);
-    names.forEach(name => {
-      var option = document.createElement('option');
-      option.text = name;
-      sel.add(option);
-    });
   });
 }

@@ -3,9 +3,13 @@ var rawByHourJsonData = null;
 
 function byHourSelectionChanged(event){
   console.log('By hour event selection changed.');
-  const sel = document.getElementById("byhoursel");
-  const holder = document.querySelector("data");
-  drawByHourChart([sel.value]);
+  grabStateAndDrawByHour();
+}
+
+function grabStateAndDrawByHour(){
+  const eventSel = document.getElementById("byhoursel");
+  const eventNames = [...eventSel.selectedOptions].map(x => x.label);
+  drawByHourChart(eventNames);
 }
 
 async function fetchByHourData(){
@@ -16,10 +20,20 @@ async function fetchByHourData(){
   return fetch('./data/eventsPerHourOfDay.json')
     .then(response => response.json())
     .then(data => {
-      //TODO: Add events to selection
+      setByHourSelectable(data);
       rawByHourJsonData = data;
       return rawByHourJsonData;
     });
+}
+
+function setByHourSelectable(data){
+  const sel = document.getElementById('byhoursel');
+  const names = allEventNames(data);
+  names.forEach(name => {
+    const option = document.createElement('option');
+    option.text = name;
+    sel.add(option);
+  });
 }
 
 async function drawByHourChart(eventNamesToInclude = ['all']) {
@@ -29,7 +43,10 @@ async function drawByHourChart(eventNamesToInclude = ['all']) {
 
   const isStacked = document.querySelector('#byhourstacked').checked;
 
-  const datasets = buildHourlyDatasets(rawData, eventNamesToInclude, isStacked);
+  var datasets = buildHourlyDatasets(rawData, eventNamesToInclude, isStacked);
+  if(isStacked){
+    datasets = datasets.filter(d => eventNamesToInclude.includes('all') || eventNamesToInclude.includes(d.label));
+  }
 
   if(charts.byHourChart){
     charts.byHourChart.clear();
