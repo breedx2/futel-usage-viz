@@ -5,8 +5,7 @@ function drawAllOpenSignal() {
       const monthData = rollupOpenSignalToMonths(data);
       drawOpenSignalHandsetMenu(monthData);
       drawOpenSignalRemoteMenu(monthData);
-      drawOpenSignalHandsetContent(monthData);
-      drawOpenSignalRemoteContent(monthData);
+      drawOpenSignalContent(monthData);
     });
 }
 
@@ -52,47 +51,41 @@ function drawOpenSignalMenu(opts) {
   });
 }
 
-function drawOpenSignalHandsetContent(data) {
-  drawOpenSignalContent({
-    chartId: 'os-handset-content',
-    multiSeries: data.handsetContent,
-    globalChartNameRef: 'opensignalHandsetContent'
-  });
+function openSignalBlend(obj1, obj2){
+  const result = Object.fromEntries(Object.entries(obj1));
+  return Object.entries(obj2).reduce((acc,e) => {
+    acc[e[0]] = e[1] + (acc[e[0]]);
+    return acc;
+  }, result);
 }
 
-function drawOpenSignalRemoteContent(data) {
-  drawOpenSignalContent({
-    chartId: 'os-remote-content',
-    multiSeries: data.remoteContent,
-    globalChartNameRef: 'opensignalRemoteContent'
-  })
-}
-
-function drawOpenSignalContent(opts) {
-  const peoplesHomesData = openSignalMonthRangeFromObj(opts.multiSeries.peoples_homes);
-  const conversationsData = openSignalMonthRangeFromObj(opts.multiSeries.conversations);
-  const missedConnData = openSignalMonthRangeFromObj(opts.multiSeries.missed_connections);
+function drawOpenSignalContent(data){
+  const combined = {
+    peoplesHomesData: openSignalBlend(data.handsetContent.peoples_homes, data.remoteContent.peoples_homes),
+    conversationsData: openSignalBlend(data.handsetContent.conversations, data.remoteContent.conversations),
+    missedConnData: openSignalBlend(data.handsetContent.missed_connections, data.remoteContent.missed_connections)
+  }
 
   const datasets = [
     {
       label: "People's Homes",
       borderColor: stringToColor("peoples homes"),
-      data: Object.values(peoplesHomesData),
+      data: Object.values(combined.peoplesHomesData),
     },
     {
       label: "Conversations",
       borderColor: stringToColor(".conversations..."),
-      data: Object.values(conversationsData),
+      data: Object.values(combined.conversationsData),
     },
     {
       label: "Missed Connections",
       borderColor: stringToColor(".missed connections"),
-      data: Object.values(missedConnData),
+      data: Object.values(combined.missedConnData),
     }
   ];
-  const labels = Object.keys(peoplesHomesData);
-  const ctx = document.getElementById(opts.chartId).getContext('2d');
-  charts[opts.globalChartNameRef] = new Chart(ctx, {
+  const labels = Object.keys(combined.peoplesHomesData);
+  const ctx = document.getElementById('os-content').getContext('2d');
+  charts.opensignalContent = new Chart(ctx, {
     type: 'line',
     data: {
       labels: labels,
@@ -146,12 +139,11 @@ function addUniqueMonths(obj, set){
 }
 
 function rollupMonths(allMonths, obj, dateToMonth = d => d.replace(/-\d\d$/, '')){
-  const result = Object.fromEntries(allMonths.map(m => [m,0]));
   return Object.entries(obj).reduce((acc,e) => {
     const month = dateToMonth(e[0]);
-    result[month] += e[1];
-    return result;
-  }, result);
+    acc[month] += e[1];
+    return acc;
+  }, Object.fromEntries(allMonths.map(m => [m,0])));
 }
 
 function dateRangeMultiSeries(data) {
