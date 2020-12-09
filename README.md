@@ -39,6 +39,14 @@ then you can simply:
 npm run preprocess
 ```
 
+## event name mappings
+
+Event names have been inconsistent over time, which is fine, but we have a way
+of dealing with it.
+
+If you encounter an event that needs normalization, please submit a PR against
+the `src/event-name-mappings.json` file.
+
 # notes
 
 * don't push raw metrics files that have not been scrubbed.  
