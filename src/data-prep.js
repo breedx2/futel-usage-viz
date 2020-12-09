@@ -12,6 +12,7 @@ import FileInTarHandler from './file-in-tar.js';
 import LineParser from './line-parser.js';
 import LineHandler from './line-handler.js';
 import EventFilter from './event-filter.js';
+import EventNormalizer from './event-normalizer.js';
 import Aggregagotron from './aggregagotron.js';
 import OutputWriter from './output-writer.js';
 
@@ -64,5 +65,6 @@ fs.createReadStream(infile)
 function buildLineHandler(aggregagotron){
   const lineParser = new LineParser();
   const eventFilter = new EventFilter();
-  return new LineHandler(lineParser, eventFilter, aggregagotron);
+  const eventNormalizer = new EventNormalizer();
+  return new LineHandler(lineParser, eventFilter, eventNormalizer, aggregagotron);
 }
