@@ -4,9 +4,10 @@
 // This is the start of the per-line processing pipeline.
 class LineHandler {
 
-  constructor(lineParser, eventFilter, aggregagotron){
+  constructor(lineParser, eventFilter, normalizer, aggregagotron){
     this.lineParser = lineParser;
     this.eventFilter = eventFilter;
+    this.normalizer = normalizer;
     this.aggregagotron = aggregagotron;
   }
 
@@ -15,7 +16,8 @@ class LineHandler {
     if(this.eventFilter.fail(event)){
       return;
     }
-    this.aggregagotron.apply(event);
+    const normalizedEvent = this.normalizer.normalize(event);
+    this.aggregagotron.apply(normalizedEvent);
   }
 
 }
