@@ -59,7 +59,7 @@ async function drawByMonthChart(eventNamesToShow = ['operator'], yearsToShow = [
   const datasets = rawDatasets.filter(x => {
     return eventNamesToShow.includes('all') || eventNamesToShow.includes(x.label);
   });
-  const monthLabels = buildContinuousMonthRange(yearFilteredData);
+  const monthLabels = buildContinuousMonthRangeFromData(yearFilteredData);
 
   if(charts.byMonthChart){
     charts.byMonthChart.clear();
@@ -97,7 +97,7 @@ async function drawByMonthChart(eventNamesToShow = ['operator'], yearsToShow = [
 function buildMonthDatasets(data){
 
   const allNames = allEventNames(data);
-  const allMonthKeys = buildContinuousMonthRange(data);
+  const allMonthKeys = buildContinuousMonthRangeFromData(data);
 
   // each event is a series
   return allNames.map(eventName => {
@@ -114,22 +114,8 @@ function buildMonthDatasets(data){
   });
 }
 
-function buildContinuousMonthRange(data){
-  const firstMonth = Object.keys(data)[0];
-  const lastMonth = Object.keys(data).slice(-1)[0];
-  const [y,m] = firstMonth.split(/-/);
-  var [year,month] = [parseInt(y), parseInt(m)];
-  var date = `${year}-${pad2(month)}`;
-  const result = [];
-  do {
-    result.push(date);
-    month++;
-    if(month > 12){
-      month = 1;
-      year++;
-    }
-    date = `${year}-${pad2(month)}`;
-  } while(date !== lastMonth)
-  result.push(lastMonth);
-  return result;
+function buildContinuousMonthRangeFromData(data){
+  const first = Object.keys(data)[0];
+  const last = Object.keys(data).slice(-1)[0];
+  return buildContinuousMonthRange(first, last);
 }

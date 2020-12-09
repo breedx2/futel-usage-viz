@@ -95,6 +95,24 @@ function buildDateRange(first, last){
   return result;
 }
 
+function buildContinuousMonthRange(first, last){
+  const [y,m] = first.split(/-/);
+  var [year,month] = [parseInt(y), parseInt(m)];
+  var date = `${year}-${pad2(month)}`;
+  const result = [];
+  do {
+    result.push(date);
+    month++;
+    if(month > 12){
+      month = 1;
+      year++;
+    }
+    date = `${year}-${pad2(month)}`;
+  } while(date !== last)
+  result.push(last);
+  return result;
+}
+
 function formatDate(d){
   const yyyy = '' + d.getFullYear();
   var mm = pad2(d.getMonth()+1);
