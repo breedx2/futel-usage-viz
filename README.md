@@ -22,7 +22,11 @@ and point a browser at http://localhost:8000
 
 # data prep
 
-When the data changes, we need to run a tool to pre-aggregate this data.
+The data for these graphs lives as static json files that are preprocessed
+from the original raw log data.
+
+When the data changes, we need to run a tool to pre-aggregate this data.  
+Our tool reads from a `.tgz` file and outputs to an output director.
 
 ```
 node --experimental-json-modules src/data-prep.js -i metrics.tgz -o outdir
@@ -38,6 +42,9 @@ then you can simply:
 ```
 npm run preprocess
 ```
+
+The process takes just a few seconds.  Once the data has been updated, it should
+be committed to the git repo.
 
 ## event name mappings
 
