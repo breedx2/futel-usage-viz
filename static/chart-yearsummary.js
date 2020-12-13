@@ -22,7 +22,7 @@ async function drawYearSummary(data){
 
 async function fetchByYearData(){
   if(rawByYearJsonData) return Promise.resolve(rawByYearJsonData);
-  return fetch('/data/eventsPerYear.json')
+  return fetch('./data/eventsPerYear.json')
     .then(response => response.json())
     .then(data => {
       rawByYearJsonData = data;
