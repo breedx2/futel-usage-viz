@@ -1,19 +1,16 @@
 
 const charts = {};
 
-loadData()
-  .then(data => {
-    console.log("TODO WIP GET RID OF ME!");
-    console.log(data);
-    const holder = document.querySelector("data");
-    holder.data = data;
-    updateHandlers();
-    drawAllOpenSignal();
-    drawByHourChart();
-    drawByDateChart();
-    drawByMonthChart();
-    drawYearSummary(data);
-  });
+    // console.log("TODO WIP GET RID OF ME!");
+    // console.log(data);
+    // const holder = document.querySelector("data");
+    // holder.data = data;
+updateHandlers();
+drawAllOpenSignal();
+drawByHourChart();
+drawByDateChart();
+drawByMonthChart();
+drawYearSummary();
 
 function updateHandlers(){
   document.getElementById("byhoursel")
