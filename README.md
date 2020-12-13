@@ -54,6 +54,15 @@ of dealing with it.
 If you encounter an event that needs normalization, please submit a PR against
 the `src/event-name-mappings.json` file.
 
+# saving graphs / making a pdf
+
+Because the [graphing library](https://www.chartjs.org/) paints on an html
+`<canvas>`, the graphs are easily saved.  Simply right-click the graph and choose
+"Save image as..." from the popup menu.
+
+If you want to make a PDF that contains these graphs, paste them into google
+docs and then export the final doc as PDF.
+
 # notes
 
 * don't push raw metrics files that have not been scrubbed.  
