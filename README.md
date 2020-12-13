@@ -22,7 +22,11 @@ and point a browser at http://localhost:8000
 
 # data prep
 
-When the data changes, we need to run a tool to pre-aggregate this data.
+The data for these graphs lives as static json files that are preprocessed
+from the original raw log data.
+
+When the data changes, we need to run a tool to pre-aggregate this data.  
+Our tool reads from a `.tgz` file and outputs to an output director.
 
 ```
 node --experimental-json-modules src/data-prep.js -i metrics.tgz -o outdir
@@ -39,6 +43,9 @@ then you can simply:
 npm run preprocess
 ```
 
+The process takes just a few seconds.  Once the data has been updated, it should
+be committed to the git repo.
+
 ## event name mappings
 
 Event names have been inconsistent over time, which is fine, but we have a way
@@ -46,6 +53,30 @@ of dealing with it.
 
 If you encounter an event that needs normalization, please submit a PR against
 the `src/event-name-mappings.json` file.
+
+## allow/deny events (filtering)
+
+The `event-filter.js` contains the `EventFilter` class that is used to
+exclude certain events from the data during preprocessing.  
+It references the file `good-metric-names.json` to decide what to include
+and exclude.
+
+To exclude events from preprocessing, simply add the event name to the
+`good-metric-names.json` file.
+
+**NOTE**: Event names are filtered _before_ normalization.  So, if the raw
+data contains both `Foo` and `fOo` and you want to exclude them both, you should
+omit them both from `good-metric-names.json`...even if an normalization alias
+exists.
+
+# saving graphs / making a pdf
+
+Because the [graphing library](https://www.chartjs.org/) paints on an html
+`<canvas>`, the graphs are easily saved.  Simply right-click the graph and choose
+"Save image as..." from the popup menu.
+
+If you want to make a PDF that contains these graphs, paste them into google
+docs and then export the final doc as PDF.
 
 # notes
 
