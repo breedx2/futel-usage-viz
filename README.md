@@ -57,8 +57,9 @@ the `src/event-name-mappings.json` file.
 ## allow/deny events (filtering)
 
 The `event-filter.js` contains the `EventFilter` class that is used to
-exclude certain events from the data.  It references the file `good-metric-names.json`
-to decide what to include and exclude.
+exclude certain events from the data during preprocessing.  
+It references the file `good-metric-names.json` to decide what to include
+and exclude.
 
 To exclude events from preprocessing, simply add the event name to the
 `good-metric-names.json` file.
