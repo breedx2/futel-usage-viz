@@ -1,8 +1,11 @@
+var rawByYearJsonData = null;
 
-function drawYearSummary(data){
-  const summary = yearSummary(data);
-  const years = Object.keys(summary);
+async function drawYearSummary(data){
+  const summary = await fetchByYearData();
+
+  const years = Object.keys(summary).sort().reverse();
   const tot = document.querySelector('#yeartotals');
+
   years.forEach(year => {
     tot.insertAdjacentHTML('beforeend', `<h3>${year}</h3>`);
     const yearData = summary[year];
@@ -15,4 +18,14 @@ function drawYearSummary(data){
     tot.insertAdjacentHTML('beforeend', `<ul>${lineItems}</ul>`);
 
   });
+}
+
+async function fetchByYearData(){
+  if(rawByYearJsonData) return Promise.resolve(rawByYearJsonData);
+  return fetch('/data/eventsPerYear.json')
+    .then(response => response.json())
+    .then(data => {
+      rawByYearJsonData = data;
+      return data;
+    });
 }
