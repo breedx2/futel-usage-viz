@@ -1,10 +1,6 @@
 
 const charts = {};
 
-    // console.log("TODO WIP GET RID OF ME!");
-    // console.log(data);
-    // const holder = document.querySelector("data");
-    // holder.data = data;
 updateHandlers();
 drawAllOpenSignal();
 drawByHourChart();
