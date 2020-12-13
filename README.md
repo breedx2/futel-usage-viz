@@ -66,7 +66,8 @@ To exclude events from preprocessing, simply add the event name to the
 
 **NOTE**: Event names are filtered _before_ normalization.  So, if the raw
 data contains both `Foo` and `fOo` and you want to exclude them both, you should
-omit them both from `good-metric-names.json`.
+omit them both from `good-metric-names.json`...even if an normalization alias
+exists.
 
 # saving graphs / making a pdf
 
