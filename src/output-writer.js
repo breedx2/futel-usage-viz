@@ -12,6 +12,7 @@ class OutputWriter {
     this.delegates = {
       'eventsPerDate': new JsonWriter(outputDir),
       'eventsPerMonth': new JsonWriter(outputDir),
+      'eventsPerYear': new JsonWriter(outputDir),
       'openSignal': new JsonWriter(outputDir),
       'eventsPerHourOfDay': new JsonWriter(outputDir),
     }
