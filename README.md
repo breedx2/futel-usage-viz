@@ -54,6 +54,21 @@ of dealing with it.
 If you encounter an event that needs normalization, please submit a PR against
 the `src/event-name-mappings.json` file.
 
+## allow/deny events (filtering)
+
+The `event-filter.js` contains the `EventFilter` class that is used to
+exclude certain events from the data during preprocessing.  
+It references the file `good-metric-names.json` to decide what to include
+and exclude.
+
+To exclude events from preprocessing, simply add the event name to the
+`good-metric-names.json` file.
+
+**NOTE**: Event names are filtered _before_ normalization.  So, if the raw
+data contains both `Foo` and `fOo` and you want to exclude them both, you should
+omit them both from `good-metric-names.json`...even if an normalization alias
+exists.
+
 # saving graphs / making a pdf
 
 Because the [graphing library](https://www.chartjs.org/) paints on an html
