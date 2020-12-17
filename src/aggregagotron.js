@@ -6,6 +6,7 @@
 import AggPerDate from './agg-per-date.js';
 import AggPerMonth from './agg-per-month.js';
 import AggPerYear from './agg-per-year.js';
+import AggPerFone from './agg-per-fone.js';
 import AggOpenSignal from './agg-opensignal.js';
 import AggPerHourOfDay from './agg-per-hour-of-day.js';
 
@@ -17,6 +18,7 @@ class Aggregagotron {
       'eventsPerDate': new AggPerDate(),
       'eventsPerMonth': new AggPerMonth(),
       'eventsPerYear': new AggPerYear(),
+      'eventsPerFone': new AggPerFone(),
       'openSignal': new AggOpenSignal(),
       'eventsPerHourOfDay': new AggPerHourOfDay()
     };
