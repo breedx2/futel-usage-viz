@@ -23,6 +23,7 @@
   <li><a href="#" onclick='showChart("byhour", this)'>by hour of day</a></li>
   <li><a href="#" onclick='showChart("yeartotals", this)'>year totals</a></li>
   <li><a href="#" onclick='showChart("opensignal", this)'>OpenSignal</a></li>
+  <li><a href="#" onclick='showChart("byfone", this)'>by fone</a></li>
 </ul>
 
 <div id="bymonth" class="chartholder">
@@ -112,6 +113,35 @@
 <div id="yeartotals" class="chartholder start-hidden">
     <h2>Year Summary</h2>
 </div>
+
+<div id="byfone" class="chartholder start-hidden">
+  <h2>By Fone
+    <a onclick='toggleSidebar("leftfone", "byfonewrapper")'>
+      <img src="images/gear-1119298__340.png" class='config-gear'/></a>
+  </h2>
+  <div id='leftfone' class='left-side-menu start-hidden' >
+    <b>YEARS:</b>
+    <br/>
+    <select id="byfoneyearsel" name="byfoneyearsel" size='5' multiple='true'>
+      <option selected='true'>2016</option>
+      <option selected='true'>2017</option>
+      <option selected='true'>2018</option>
+      <option selected='true'>2019</option>
+      <option selected='true'>2020</option>
+    </select>
+    <br/>
+    <b>EVENTS:</b>
+    <br/>
+    <select id="byfonesel" name="byfonesel" size='30' multiple='true'>
+      <option>all</option>
+    </select>
+  </div>
+
+  <div id='byfonewrapper' class="canvas-holder">
+    <canvas id="byfonecnv"></canvas>
+  </div>
+</div>
+
 
 <script src="webapp.js"></script>
 </body>
