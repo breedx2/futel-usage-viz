@@ -7,6 +7,7 @@ drawByHourChart();
 drawByDateChart();
 drawByMonthChart();
 drawYearSummary();
+drawByFoneChart();
 
 function updateHandlers(){
   document.getElementById("byhoursel")
@@ -19,6 +20,10 @@ function updateHandlers(){
     .addEventListener('change', byMonthYearChanged);
   document.getElementById('bydateyearsel')
     .addEventListener('change', byDateYearChanged);
+  document.getElementById('byfonesel')
+      .addEventListener('change', byFoneEventSelectionChanged);
+  document.getElementById('byfoneyearsel')
+    .addEventListener('change', byFoneYearChanged);
   document.getElementById('byhourstacked').addEventListener('change', () => {
     if(charts.byHourChart){
       charts.byHourChart.destroy();
