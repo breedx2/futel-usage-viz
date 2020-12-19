@@ -1,4 +1,5 @@
 let rawByFoneJsonData = null;
+let extensions = null;
 
 function byFoneYearChanged(event) {
   console.log('by fone year changed');
@@ -49,18 +50,32 @@ async function fetchByFoneData(event) {
     });
 }
 
+async function fetchExtensionData(event) {
+  if (extensions) {
+    return Promise.resolve(extensions);
+  }
+  console.log("Fetching pretty extension names...");
+  return fetch('./data/extensions.json')
+    .then(response => response.json())
+    .then(data => {
+      extensions = data;
+      return data;
+    });
+}
+
 async function drawByFoneChart(eventNamesToShow = ['operator'], yearsToShow = ['all']) {
   const data = await fetchByFoneData();
   const filtered = filterFonesToSelection(filterByFone(data), eventNamesToShow, yearsToShow);
   const rollups = rollUpByFone(filtered);
+  const pretty = await mapExtensionNames(rollups);
 
   const datasets = [{
-    data: Object.values(rollups),
-    backgroundColor: Object.keys(rollups).map(stringToColor)
+    data: Object.values(pretty),
+    backgroundColor: Object.keys(pretty).map(stringToColor)
   }];
-  const labels = Object.keys(rollups);
+  const labels = Object.keys(pretty);
 
-  if(charts.byFoneChart){
+  if (charts.byFoneChart) {
     charts.byFoneChart.clear();
     charts.byFoneChart.data.datasets = datasets;
     charts.byFoneChart.data.labels = labels;
@@ -94,6 +109,18 @@ async function drawByFoneChart(eventNamesToShow = ['operator'], yearsToShow = ['
       }
     }
   });
+}
+
+async function mapExtensionNames(data) {
+  const map = await fetchExtensionData();
+  return Object.fromEntries(
+    Object.entries(data).map(e => {
+      const sip = e[0];
+      const k = sip.replace(/^SIP\//, '');
+      const extension = map[k] || sip;
+      return [extension, e[1]];
+    })
+  );
 }
 
 function rollUpByFone(data) {
