@@ -1,0 +1,11 @@
+{
+  "operator": [
+    "operator", "operator-nopickup"
+  ],
+  "outgoing-ivr": [
+    "outgoing-ivr",
+    "outgoing-ivr-detroit",
+    "outgoing-ivr-souwester",
+    "outgoing-ivr-ypsi"
+  ]
+}
