@@ -8,6 +8,7 @@ drawByDateChart();
 drawByMonthChart();
 drawYearSummary();
 drawByFoneChart();
+configurePresets();
 
 function updateHandlers(){
   document.getElementById("byhoursel")
