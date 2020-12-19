@@ -11,11 +11,9 @@ function fetchByMonthPresets(){
 
 function configurePresetsFor(mappings, presetId, targetId){
   const presetSel = document.getElementById(presetId);
-  Object.entries(mappings).forEach(e => {
-    const source = e[0];
-    const targets = e[1];
+  Object.keys(mappings).forEach(preset => {
     const option = document.createElement('option');
-    option.text = source;
+    option.text = preset;
     presetSel.add(option);
   });
   presetSel.addEventListener('change', () => {
