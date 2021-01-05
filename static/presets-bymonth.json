@@ -3,9 +3,14 @@
     "operator", "operator-nopickup"
   ],
   "outgoing-ivr": [
+    "hold_the_phone_main",
+    "incoming-ivr",
     "outgoing-ivr",
     "outgoing-ivr-detroit",
     "outgoing-ivr-souwester",
-    "outgoing-ivr-ypsi"
+    "outgoing-ivr-ypsi",
+    "outgoing_detroit_menu",
+    "outgoing_portland_menu",
+    "outgoing_souwester_menu"
   ]
 }
