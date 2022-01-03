@@ -3,9 +3,15 @@
 class LineParser {
 
   parse(line) {
-    const re = /(\d\d\d\d-\d\d-\d\d) (\d\d):.* CALLERID\(number\)=\+?\w*, UNIQUEID=(.*), CHANNEL=(.*), name=(.*)/;
-    const [x, date, hour, uid, channel, name] = line.match(re);
-    const [xx, timestamp] = line.match(/^(.*) CALLERID.*/);
+    console.log(line);
+    const [x, timestamp, fieldParts] = line.match(/^(\d\d\d\d-\d\d-\d\d \d\d:\d\d:\d\d[,.]\d\d\d) (.*)/);
+    const [xx, date, hour] = line.match(/^(\d\d\d\d-\d\d-\d\d) (\d\d).*/);
+
+    const fieldObj = Object.fromEntries(fieldParts.split(/, ?/).map(x => x.split(/=/)));
+    const channel = fieldObj['CHANNEL'];
+    const uid = fieldObj['UNIQUEID'];
+    const name = fieldObj['name'];
+
     const [xxx, extension] = channel.match(/(SIP.*)-.*/);
     return {
       timestamp: timestamp,
