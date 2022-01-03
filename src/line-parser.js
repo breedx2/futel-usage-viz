@@ -3,7 +3,6 @@
 class LineParser {
 
   parse(line) {
-    console.log(line);
     const [x, timestamp, fieldParts] = line.match(/^(\d\d\d\d-\d\d-\d\d \d\d:\d\d:\d\d[,.]\d\d\d) (.*)/);
     const [xx, date, hour] = line.match(/^(\d\d\d\d-\d\d-\d\d) (\d\d).*/);
 
