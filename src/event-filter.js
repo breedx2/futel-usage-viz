@@ -6,7 +6,9 @@ import goodMetricNames from './good-metric-names.json';
 class EventFilter {
 
   pass(event){
-    return goodMetricNames.includes(event.name);
+    //return goodMetricNames.includes(event.name);
+    // Karl wants all events.....
+    return true;
   }
 
   fail(event){
