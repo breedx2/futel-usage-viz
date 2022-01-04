@@ -115,7 +115,9 @@ function buildMonthDatasets(data){
 }
 
 function buildContinuousMonthRangeFromData(data){
-  const first = Object.keys(data)[0];
-  const last = Object.keys(data).slice(-1)[0];
+  const allDates = Object.keys(data);
+  allDates.sort();
+  const first = allDates[0];
+  const last = allDates.slice(-1)[0];
   return buildContinuousMonthRange(first, last);
 }
